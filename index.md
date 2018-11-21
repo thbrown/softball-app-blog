@@ -20,7 +20,6 @@ Hoping to get something more polished out for the Spring '19 season. In the mean
   {% for post in site.posts %}
     <li>
       <a href="{{ post.url }}">{{ post.title }}</a>
-      {{ post.excerpt }}
     </li>
   {% endfor %}
 </ul>
