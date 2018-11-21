@@ -1,3 +1,4 @@
 theme: jekyll-theme-slate
 title: Softball.app Blog
 description: Information and discussion about https://softball.app
+baseurl: /softball-app-blog
