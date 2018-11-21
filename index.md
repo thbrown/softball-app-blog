@@ -1,4 +1,10 @@
-## Softball.app
+---
+layout: default
+title: "Welcome to Jekyll!"
+published: true
+---
+
+## Softball.app Blog
 
 This is a place to post updates about [https://softball.app](https://softball.app)
 

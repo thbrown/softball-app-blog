@@ -1,9 +1,3 @@
----
-layout: post
-title: "Welcome to Jekyll!"
-published: true
----
-
 ## Softball.app Blog
 
 https://blog.softball.app/
