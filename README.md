@@ -2,7 +2,7 @@
 
 This is a place to post updates about 
 
-[https://softball.app]
+[https://softball.app](https://softball.app)
 
 A Progressive Web App to optimize softball/baseball/kickball lineups via monte carlo simulations.
 
