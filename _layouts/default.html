@@ -38,7 +38,7 @@
       </section>
     </div>
 
-    <form method="POST" action="https://staticthbrown.herokuapp.com/v2/entry/thbrown/softball-app-blog/master/comments">
+    <form class="constrain" method="POST" action="https://staticthbrown.herokuapp.com/v2/entry/thbrown/softball-app-blog/master/comments">
       <input name="options[redirect]" type="hidden" value="https://blog.softball.app{{page.url}}">
       <!-- e.g. "2016-01-02-this-is-a-post" -->
       <input name="options[slug]" type="hidden" value="{{ page.slug }}">
@@ -58,6 +58,8 @@
         <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
+
+    {% include modal.html %}
 
     {% if site.google_analytics %}
       <script>
