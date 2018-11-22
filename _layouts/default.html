@@ -38,16 +38,6 @@
       </section>
     </div>
 
-    <section class="constrain">
-      <h3>Leave a comment</h3>
-      {% include comment-new.html %}
-    </section>
-    
-    <section class="constrain">
-      <h3>All comments</h3>
-      {% include comment.html %}
-    </section>
-
     <form method="POST" action="https://staticthbrown.herokuapp.com/v2/entry/thbrown/staticman/softball-app-blog/{{page.name}}">
       <input name="options[redirect]" type="hidden" value="https://blog.softball.app{{page.url}}">
       <!-- e.g. "2016-01-02-this-is-a-post" -->
