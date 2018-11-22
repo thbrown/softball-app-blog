@@ -35,13 +35,11 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         {{ content }}
-        https://staticthbrown.herokuapp.com/v2/entry/thbrown/staticman/softball-app-blog/{{page.name}}
-        https://blog.softball.app{{page.url}}
       </section>
     </div>
 
-    <form method="POST" action="https://staticthbrown.herokuapp.com/v2/entry/thbrown/softball-app-blog/test">
-      <input name="options[redirect]" type="hidden" value="https://blog.softball.app">
+    <form method="POST" action="https://staticthbrown.herokuapp.com/v2/entry/thbrown/softball-app-blog">
+      <input name="options[redirect]" type="hidden" value="https://blog.softball.app{{page.url}}">
       <!-- e.g. "2016-01-02-this-is-a-post" -->
       <input name="options[slug]" type="hidden" value="{{ page.slug }}">
       <label><input name="fields[name]" type="text">Name</label><br>
