@@ -17,7 +17,7 @@ function init() {
       contentType: "application/x-www-form-urlencoded",
       success: function(data) {
         showModal(
-          "Review submitted",
+          "Data submitted",
           "Thanks for your comment! It will show on the site once it has been approved."
         );
         $(form).removeClass("form--loading");
@@ -42,5 +42,50 @@ function init() {
     $(".js-modal-text").html(message);
 
     $("body").addClass("show-modal");
+  }
+
+  // Link the title to the home page
+  var titleLink = document.getElementById("project_title");
+  titleLink.onclick = function() {
+    document.location.href = "/";
+  };
+
+  // Convert timestamps to local time
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+  let dates = document.getElementsByClassName("date");
+  for (let i = 0; i < dates.length; i++) {
+    var jsDate = new Date(parseInt(dates[i].innerHTML) * 1000);
+    var ampm = jsDate.getHours() >= 12 ? "pm" : "am";
+    dates[i].innerHTML =
+      monthNames[jsDate.getMonth()] +
+      " " +
+      jsDate.getDate() +
+      ", " +
+      jsDate.getFullYear() +
+      ", " +
+      formatAMPM(jsDate);
+  }
+  function formatAMPM(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? "pm" : "am";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    var strTime = hours + ":" + minutes + " " + ampm;
+    return strTime;
   }
 }

@@ -22,19 +22,8 @@
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
-          {% if site.github.is_project_page %}
-            <!--<a id="forkme_banner" href="{{ site.github.repository_url }}">View on GitHub</a>-->
-          {% endif %}
-
           <h1 id="project_title">{{ site.title | default: site.github.repository_name }}</h1>
           <h2 id="project_tagline">{{ site.description | default: site.github.project_tagline }}</h2>
-
-          {% if site.show_downloads %}
-            <section id="downloads">
-              <a class="zip_download_link" href="{{ site.github.zip_url }}">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="{{ site.github.tar_url }}">Download this project as a tar.gz file</a>
-            </section>
-          {% endif %}
         </header>
     </div>
 
@@ -45,6 +34,7 @@
       </section>
     </div>
 
+    <!-- COMMENTS -->
     <section class="constrain">
       <div class="comment-title">
         Leave a Comment
@@ -52,7 +42,11 @@
       <form id="new-comment" class="js-form form" method="POST" action="https://staticthbrown.herokuapp.com/v2/entry/thbrown/softball-app-blog/master/comments">
         <div class="form__spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
 
+        {% if page.slug %}
         <input name="options[slug]" type="hidden" value="{{ page.slug }}">
+        {% else %}
+        <input name="options[slug]" type="hidden" value="index">
+        {% endif %}
         <fieldset class="field-group">
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input class="mdl-textfield__input" type="text" id="fields[name]" name="fields[name]"/>
@@ -63,14 +57,14 @@
         <fieldset class="field-group">
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input class="mdl-textfield__input" type="email" id="fields[email]" name="fields[email]"/>
-            <label class="mdl-textfield__label" for="fields[email]">Your email</label>
+            <label class="mdl-textfield__label" for="fields[email]">Your email (will not be public)</label>
           </div>
         </fieldset>
 
         <fieldset class="field-group">
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <textarea class="mdl-textfield__input" type="text" rows= "3" id="fields[message]" name="fields[message]"></textarea>
-            <label class="mdl-textfield__label" for="fields[message]">Your comment</label>
+            <label class="mdl-textfield__label" for="fields[message]">Your comment (markdown allowed)</label>
           </div>
         </fieldset>
 
@@ -83,16 +77,21 @@
       </form>
     </section>
 
-    <div class="js-comments constrain">
-      {% assign comments = site.data.comments | sort %}
-      
+    <div class="js-comments constrain">   
+      {% if page.slug %}
+      {% assign comments = site.data.comments[page.slug] | sort %}
+      {% else %}
+      {% assign comments = site.data.comments.index | sort %}
+      {% endif %}
+
       {% for comment in comments reversed %}
         {% assign commentData = comment[1] %}
     
         <article class="comment mdl-card mdl-shadow--2dp">
           <div class="mdl-card__title comment-header">
             <h2 class="mdl-card__title-text">{{ commentData.name }}</h2>
-            <span class="date">{{ commentData.date | date: "%b %d, %y, %I:%M %P" }}</span>
+            <span class="date">{{ commentData.date }}</span>
+            <!-- To parse date in ruby:| date: "%b %d, %y, %I:%M %P %Z"-->
           </div>
           <div class="mdl-card__supporting-text">
             <div class="comment__description">
@@ -101,6 +100,7 @@
           </div>
         </article>
       {% endfor %}
+
     </div>
 
     <!-- FOOTER  -->
