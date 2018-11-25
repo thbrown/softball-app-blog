@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Welcome to Jekyll!"
+title: "Blog - Softball.app"
 published: true
 ---
 

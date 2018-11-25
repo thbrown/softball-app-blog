@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/style.css?v=cfd33302af47ff5edc7c4a0deb4dd756deb6f720">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png?">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>How does the lineup simulation work? | Softball.app Blog</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="How does the lineup simulation work?" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The Simulation" />
+<meta property="og:description" content="The Simulation" />
+<link rel="canonical" href="http://localhost:4000/2018/11/20/test.html" />
+<meta property="og:url" content="http://localhost:4000/2018/11/20/test.html" />
+<meta property="og:site_name" content="Softball.app Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-11-20T00:00:00-07:00" />
+<script type="application/ld+json">
+{"description":"The Simulation","@type":"BlogPosting","url":"http://localhost:4000/2018/11/20/test.html","headline":"How does the lineup simulation work?","dateModified":"2018-11-20T00:00:00-07:00","datePublished":"2018-11-20T00:00:00-07:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/11/20/test.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body onload="init()">
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          
+            <!--<a id="forkme_banner" href="http://github.com/thbrown/softball-app-blog">View on GitHub</a>-->
+          
+
+          <h1 id="project_title">Softball.app Blog</h1>
+          <h2 id="project_tagline">Information and discussion about https://softball.app</h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="the-simulation">The Simulation</h1>
+
+<p>While using softball.app, the scorer enters information about the result of plate appearance for players in the lineup. Each plate appearance will result in one of the following outcomes (Out, SAC, E, BB, 1B, 2B, 3B, HRi, HRo). These outcomes are mapped to a number between 0 and 4 representing the number bases the player was awarded for the result of their plate appearance:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Result</th>
+      <th>Bases</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Out, SAC, E, K</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>1B, BB</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>2B</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>3B</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>HRi, HRo</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We can debate about how walks or sacrifices should be counted. It probably depends on what flavor of the sport you are playing. IMHO sacrifices should be counted as outs in slowpitch softball and kickball, but not baseball or fastpitch. In any event, these mapping are configurable (or will be configurable soon). So you are welcome to impose your own philosophy.</p>
+
+<p>The simulation then iterates over every possible lineup running simulated games on each permutation. The historical result data that was collected is used to determine the probabilities of each player getting each result during a simulated plate appearance.</p>
+
+<p>By default 1,000,000 games are simulated for each lineup. The number of runs scored in each game is averaged and recorded. After all 1 million games have been simulated for every lineup, the best scoring lineup and its corresponding estimated score are presented.</p>
+
+<p>Things that are not accounted for in the simulation:</p>
+
+<ul>
+  <li>Double/triple plays</li>
+  <li>Stolen bases</li>
+  <li>Players who were on base advancing more bases than the hitter</li>
+</ul>
+
+      </section>
+    </div>
+
+    <section class="constrain">
+      <div class="comment-title">
+        Leave a Comment
+      </div>
+      <form id="new-comment" class="js-form form" method="POST" action="https://staticthbrown.herokuapp.com/v2/entry/thbrown/softball-app-blog/master/comments">
+        <div class="form__spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
+
+        <input name="options[slug]" type="hidden" value="test">
+        <fieldset class="field-group">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="text" id="fields[name]" name="fields[name]"/>
+            <label class="mdl-textfield__label" for="fields[name]">Your name</label>
+          </div>
+        </fieldset>
+
+        <fieldset class="field-group">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="email" id="fields[email]" name="fields[email]"/>
+            <label class="mdl-textfield__label" for="fields[email]">Your email</label>
+          </div>
+        </fieldset>
+
+        <fieldset class="field-group">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <textarea class="mdl-textfield__input" type="text" rows= "3" id="fields[message]" name="fields[message]"></textarea>
+            <label class="mdl-textfield__label" for="fields[message]">Your comment</label>
+          </div>
+        </fieldset>
+
+        <fieldset class="field-group">
+          <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+            Submit
+          </button>
+        </fieldset>
+
+      </form>
+    </section>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p class="copyright">Softball.app Blog maintained by <a href="http://github.com/thbrown">thbrown</a></p>
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    <article class="modal mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text js-modal-title"></h2>
+  </div>
+  <div class="mdl-card__supporting-text js-modal-text"></div>
+  <div class="mdl-card__actions mdl-card--border">
+    <button
+      class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect js-close-modal"
+    >
+      Close
+    </button>
+  </div>
+</article>
+
+
+    
+  </body>
+</html>
