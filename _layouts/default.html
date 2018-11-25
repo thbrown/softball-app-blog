@@ -83,6 +83,26 @@
       </form>
     </section>
 
+    <div class="js-comments constrain">
+      {% assign comments = site.data.comments | sort %}
+      
+      {% for comment in comments reversed %}
+        {% assign commentData = comment[1] %}
+    
+        <article class="comment mdl-card mdl-shadow--2dp">
+          <div class="mdl-card__title comment-header">
+            <h2 class="mdl-card__title-text">{{ commentData.name }}</h2>
+            <span class="date">{{ commentData.date | date: "%b %d, %y, %I:%M %P" }}</span>
+          </div>
+          <div class="mdl-card__supporting-text">
+            <div class="comment__description">
+              {{ commentData.message | markdownify }}
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">

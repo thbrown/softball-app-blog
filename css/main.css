@@ -75,3 +75,22 @@
   font-size: 20px;
   padding: 10px;
 }
+
+.comment {
+  width: 100%;
+  margin: 20px auto;
+  min-height: 0;
+}
+
+.comment__description {
+  margin-top: 1em;
+}
+
+.comment-header {
+  margin-bottom: -40px;
+}
+
+.date {
+  margin-left: 15px;
+  font-style: italic;
+}

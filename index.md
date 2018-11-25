@@ -6,7 +6,7 @@ published: true
 
 ## Softball.app Blog
 
-This is a place to post updates about [https://softball.app](https://softball.app)
+This is a place to post documentation and updates about [https://softball.app](https://softball.app)
 
 A Progressive Web App to optimize softball/baseball/kickball lineups via Monte Carlo simulations.
 
