@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Blog - Softball.app"
+title: "Blog Softball.app"
 published: true
 ---
 

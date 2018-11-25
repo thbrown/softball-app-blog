@@ -11,8 +11,8 @@ Hoping to get something more polished out for the Spring '19 season. In the mean
 # Install - Windows
 
 Follow this. https://jekyllrb.com/docs/installation/windows/
-Don't instll ruby into a directory with spaces.
+Don't install ruby into a directory with spaces.
 
 # Build - Local
 
-bundle exec jekyll serve
+`bundle exec jekyll serve`
