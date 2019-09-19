@@ -10,9 +10,14 @@ This is a place to post documentation and updates about [https://softball.app](h
 
 A Progressive Web App to optimize softball/baseball/kickball lineups via Monte Carlo simulations.
 
-We used a bare bones version for slowpitch softball last season and it went pretty well.
-
-Hoping to get something more polished out for the Spring '19 season. In the meantime, try it out and let us know what you think!
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/XzFc3eDHfk4"
+  frameborder="0"
+  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
 
 <ul>
   {% for post in site.posts %}
