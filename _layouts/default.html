@@ -8,6 +8,7 @@
     <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-pink.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
@@ -18,89 +19,100 @@
   </head>
 
   <body onload="init()">
+    <!-- BACKGROUND -->
+    <div id="particles-js"></div>
+    <script>
+      particlesJS.load('particles-js', '/json/particles.json', function() {
+      console.log('callback - particles.js config loaded');
+      document.getElementById('particles-js').height = window.height;
+    });
+    </script>
 
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
-        <header class="inner">
-          <h1 id="project_title">{{ site.title | default: site.github.repository_name }}</h1>
-          <h2 id="project_tagline">{{ site.description | default: site.github.project_tagline }}</h2>
-        </header>
+      <header class="inner">
+        <h1 id="project_title">{{ site.title | default: site.github.repository_name }}</h1>
+        <h2 id="project_tagline">{{ site.description | default: site.github.project_tagline }}</h2>
+      </header>
     </div>
 
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+      <section id="main_content" class="inner center_card">
         {{ content }}
       </section>
     </div>
 
     <!-- COMMENTS -->
-    <section class="constrain">
-      <div class="comment-title">
-        Leave a Comment
-      </div>
-      <form id="new-comment" class="js-form form" method="POST" action="https://staticthbrown.herokuapp.com/v2/entry/thbrown/softball-app-blog/master/comments">
-        <div class="form__spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
-
-        {% if page.slug %}
-        <input name="options[slug]" type="hidden" value="{{ page.slug }}">
-        {% else %}
-        <input name="options[slug]" type="hidden" value="index">
-        {% endif %}
-        <fieldset class="field-group">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="fields[name]" name="fields[name]"/>
-            <label class="mdl-textfield__label" for="fields[name]">Your name</label>
+    <div id="comments_wrap" class="outer">
+      <section id="comment_content" class="inner center_card">
+        <div class="constrain">
+          <div class="comment-title">
+            Leave a Comment
           </div>
-        </fieldset>
+          <form id="new-comment" class="js-form form" method="POST" action="https://staticthbrown.herokuapp.com/v2/entry/thbrown/softball-app-blog/master/comments">
+            <div class="form__spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
 
-        <fieldset class="field-group">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="email" id="fields[email]" name="fields[email]"/>
-            <label class="mdl-textfield__label" for="fields[email]">Your email (will not be public)</label>
-          </div>
-        </fieldset>
+            {% if page.slug %}
+            <input name="options[slug]" type="hidden" value="{{ page.slug }}">
+            {% else %}
+            <input name="options[slug]" type="hidden" value="index">
+            {% endif %}
+            <fieldset class="field-group">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="fields[name]" name="fields[name]"/>
+                <label class="mdl-textfield__label" for="fields[name]">Your name</label>
+              </div>
+            </fieldset>
 
-        <fieldset class="field-group">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <textarea class="mdl-textfield__input" type="text" rows= "3" id="fields[message]" name="fields[message]"></textarea>
-            <label class="mdl-textfield__label" for="fields[message]">Your comment (markdown allowed)</label>
-          </div>
-        </fieldset>
+            <fieldset class="field-group">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="email" id="fields[email]" name="fields[email]"/>
+                <label class="mdl-textfield__label" for="fields[email]">Your email (will not be public)</label>
+              </div>
+            </fieldset>
 
-        <fieldset class="field-group">
-          <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-            Submit
-          </button>
-        </fieldset>
+            <fieldset class="field-group">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <textarea class="mdl-textfield__input" type="text" rows= "3" id="fields[message]" name="fields[message]"></textarea>
+                <label class="mdl-textfield__label" for="fields[message]">Your comment (markdown allowed)</label>
+              </div>
+            </fieldset>
 
-      </form>
-    </section>
+            <fieldset class="field-group">
+              <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                Submit
+              </button>
+            </fieldset>
 
-    <div class="js-comments constrain">   
-      {% if page.slug %}
-      {% assign comments = site.data.comments[page.slug] | sort %}
-      {% else %}
-      {% assign comments = site.data.comments.index | sort %}
-      {% endif %}
+          </form>
+        </div>
 
-      {% for comment in comments reversed %}
-        {% assign commentData = comment[1] %}
-    
-        <article class="comment mdl-card mdl-shadow--2dp">
-          <div class="mdl-card__title comment-header">
-            <h2 class="mdl-card__title-text">{{ commentData.name }}</h2>
-            <span class="date">{{ commentData.date }}</span>
-            <!-- To parse date in ruby:| date: "%b %d, %y, %I:%M %P %Z"-->
-          </div>
-          <div class="mdl-card__supporting-text">
-            <div class="comment__description">
-              {{ commentData.message | markdownify | replace: '<a href="http', '<a rel="nofollow" target="_blank" href="http'}}
-            </div>
-          </div>
-        </article>
-      {% endfor %}
+        <div class="js-comments constrain">   
+          {% if page.slug %}
+          {% assign comments = site.data.comments[page.slug] | sort %}
+          {% else %}
+          {% assign comments = site.data.comments.index | sort %}
+          {% endif %}
 
+          {% for comment in comments reversed %}
+            {% assign commentData = comment[1] %}
+        
+            <article class="comment mdl-card mdl-shadow--2dp">
+              <div class="mdl-card__title comment-header">
+                <h2 class="mdl-card__title-text">{{ commentData.name }}</h2>
+                <span class="date">{{ commentData.date }}</span>
+                <!-- To parse date in ruby:| date: "%b %d, %y, %I:%M %P %Z"-->
+              </div>
+              <div class="mdl-card__supporting-text">
+                <div class="comment__description">
+                  {{ commentData.message | markdownify | replace: '<a href="http', '<a rel="nofollow" target="_blank" href="http'}}
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </section>
     </div>
 
     <!-- FOOTER  -->
@@ -112,6 +124,8 @@
         <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
+
+  </div>
 
     {% include modal.html %}
 
