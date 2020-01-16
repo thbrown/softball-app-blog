@@ -16,9 +16,9 @@ While using softball.app to score a game, the scorer enters information about th
 | 3B             | 3     |
 | HRi, HRo       | 4     |
 
-The simulation then runs simulated games on every possible lineup. During simulated games, the historical result data collectd during scoring is used to determin probabilities of any given player getting any given number of bases as the result of a simulated plate appearance.
+The simulation then runs simulated games on every possible lineup. During simulated games, the historical result data collected during scoring is used to determine probabilities of any given player getting any given number of bases as the result of a simulated plate appearance.
 
-By default, one million games are simulated for each lineup. The number of runs scored in each simulated game is averaged and recorded. After all simulated games have completed for every possible lineup, the best scoring lineup and its corresponding estimated score are delevered to the user.
+By default, one million games are simulated for each lineup. The number of runs scored in each simulated game is averaged and recorded. After all simulated games have completed for every possible lineup, the best scoring lineup and its corresponding estimated score are delivered to the user.
 
 ![Optimized co-ed batting lineup](https://i.imgur.com/PrghHEl.png "Optimized co-ed batting lineup")
 

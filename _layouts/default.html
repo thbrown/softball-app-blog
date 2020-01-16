@@ -23,8 +23,6 @@
     <div id="particles-js"></div>
     <script>
       particlesJS.load('particles-js', '/json/particles.json', function() {
-      console.log('callback - particles.js config loaded');
-      document.getElementById('particles-js').height = window.height;
     });
     </script>
 
@@ -50,42 +48,7 @@
           <div class="comment-title">
             Leave a Comment
           </div>
-          <form id="new-comment" class="js-form form" method="POST" action="https://staticthbrown.herokuapp.com/v2/entry/thbrown/softball-app-blog/master/comments">
-            <div class="form__spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
-
-            {% if page.slug %}
-            <input name="options[slug]" type="hidden" value="{{ page.slug }}">
-            {% else %}
-            <input name="options[slug]" type="hidden" value="index">
-            {% endif %}
-            <fieldset class="field-group">
-              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" id="fields[name]" name="fields[name]"/>
-                <label class="mdl-textfield__label" for="fields[name]">Your name</label>
-              </div>
-            </fieldset>
-
-            <fieldset class="field-group">
-              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="email" id="fields[email]" name="fields[email]"/>
-                <label class="mdl-textfield__label" for="fields[email]">Your email (will not be public)</label>
-              </div>
-            </fieldset>
-
-            <fieldset class="field-group">
-              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <textarea class="mdl-textfield__input" type="text" rows= "3" id="fields[message]" name="fields[message]"></textarea>
-                <label class="mdl-textfield__label" for="fields[message]">Your comment (markdown allowed)</label>
-              </div>
-            </fieldset>
-
-            <fieldset class="field-group">
-              <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-                Submit
-              </button>
-            </fieldset>
-
-          </form>
+          {% include comment.html %}
         </div>
 
         <div class="js-comments constrain">   
@@ -100,20 +63,42 @@
         
             <article class="comment mdl-card mdl-shadow--2dp">
               <div class="mdl-card__title comment-header">
-                <h2 class="mdl-card__title-text">{{ commentData.name }}</h2>
-                <span class="date">{{ commentData.date }}</span>
+                <h2 class="mdl-card__title-text">{{ commentData.name | strip_html }}</h2>
+                <span class="date">{{ commentData.date | strip_html }}</span>
                 <!-- To parse date in ruby:| date: "%b %d, %y, %I:%M %P %Z"-->
               </div>
-              <div class="mdl-card__supporting-text">
+              <div class="comment-supporting-text-override mdl-card__supporting-text">
                 <div class="comment__description">
-                  {{ commentData.message | markdownify | replace: '<a href="http', '<a rel="nofollow" target="_blank" href="http'}}
+                  {{ commentData.message | strip_html | markdownify | replace: '<a href="http', '<a rel="nofollow" target="_blank" href="http'}}
                 </div>
               </div>
+              <button class="mdc-button comment-reply-button" id={{ commentData._id }} onclick="showReply('{{ commentData._id }}', '{{ commentData.name }}')">  <span class="mdc-button__ripple"></span>REPLY</button>
             </article>
           {% endfor %}
         </div>
       </section>
     </div>
+
+    <script>
+      function showReply(id, name) {
+        // Adds an element to the document e.getAttribute('id')
+        var replyButton = document.getElementById(id);
+        replyButton.classList.add("hidden");
+        var commentDiv = document.createElement('div');
+        commentDiv.setAttribute('class', "comment-reply-wrapper");
+        commentDiv.innerHTML = `{% include comment.html %}`;
+        commentDiv.querySelector('input[name="replyto"]').value = id;
+        commentDiv.innerHTML = '<hr>' + "<div>Replying to " + name + '</div>' + commentDiv.outerHTML;
+        replyButton.parentNode.appendChild(commentDiv);
+
+        // This is required to get the lables to float
+        // Trying to get away with cloneing the existing comment box wont work (it will render but the floating labels will be broken). Here is why https://github.com/google/material-design-lite/issues/4275
+        componentHandler.upgradeDom();
+
+        // Re-attach javascript submit handlers
+        initCommentSubmitActions();
+      }
+    </script>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">

@@ -1,0 +1,38 @@
+<form class="js-form form" method="POST" action="https://staticthbrown.herokuapp.com/v2/entry/thbrown/softball-app-blog/master/comments">
+  <div class="form__spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
+
+  {% if page.slug %}
+  <input name="options[slug]" type="hidden" value="{{ page.slug }}">
+  {% else %}
+  <input name="options[slug]" type="hidden" value="index">
+  {% endif %}
+  <fieldset class="field-group">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label comment-fieldset">
+      <input class="mdl-textfield__input" type="text" name="fields[name]"/>
+      <label class="mdl-textfield__label" for="fields[name]">Your name</label>
+    </div>
+  </fieldset>
+
+  <fieldset class="field-group">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label comment-fieldset">
+      <input class="mdl-textfield__input" type="email" name="fields[email]"/>
+      <label class="mdl-textfield__label" for="fields[email]">Your email (will not be public)</label>
+    </div>
+  </fieldset>
+
+  <fieldset class="field-group">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label comment-fieldset">
+      <textarea class="mdl-textfield__input" type="text" rows= "3" name="fields[message]"></textarea>
+      <label class="mdl-textfield__label" for="fields[message]">Your comment (markdown allowed)</label>
+    </div>
+  </fieldset>
+
+  <input name="replyto" type="hidden" value="root">
+
+  <fieldset class="field-group">
+    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored comment-fieldset">
+      Submit
+    </button>
+  </fieldset>
+
+</form>

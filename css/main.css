@@ -1,3 +1,7 @@
+.hidden {
+  display: none;
+}
+
 .constrain {
   width: 100%;
   max-width: 700px;
@@ -88,6 +92,26 @@
 
 .comment-header {
   margin-bottom: -40px;
+}
+
+.comment-supporting-text-override {
+  padding-bottom: 0px;
+}
+
+.comment-fieldset {
+  width: 100%;
+}
+
+.comment-reply-button {
+  margin: 8px;
+  width: 100px;
+  font-size: 13px;
+  border: black;
+  float: right;
+}
+
+.comment-reply-wrapper {
+  margin: 0px 20px 20px 20px;
 }
 
 .date {
@@ -198,7 +222,7 @@ th { font-family: 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, sans-seri
 
 td { padding: 10px; border: 1px solid #373737; }
 
-form { background: #f2f2f2; padding: 20px; }
+form { background: white; padding: 20px; }
 
 /*******************************************************************************
 Full-Width Styles
@@ -212,7 +236,7 @@ Full-Width Styles
   margin: 0 auto; }
 
 .center_card {
-  border: 1px solid #373737; 
+  box-shadow:  0px 0px 10px #373737;
   border-radius: 3px;
   margin-bottom: 15px;
 }

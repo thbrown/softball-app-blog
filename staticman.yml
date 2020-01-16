@@ -7,7 +7,7 @@ comments:
   #
   # Names of the fields the form is allowed to submit. If a field that is
   # not here is part of the request, an error will be thrown.
-  allowedFields: ["name", "email", "message"]
+  allowedFields: ["name", "email", "replyto", "message"]
 
   # (*) REQUIRED
   #
@@ -43,20 +43,22 @@ comments:
   moderation: true
 
   # Name of the site. Used in notification emails.
-  name: "blog.softball.app"
+  name: "about.softball.app"
 
   # Notification settings. When enabled, users can choose to receive notifications
   # via email when someone adds a reply or a new comment. This requires an account
   # with Mailgun, which you can get for free at http://mailgun.com.
   #notifications:
   # Enable notifications
-  #enabled: true
+  enabled: true
 
+  # This is provided directly on the server via env variable
   # (!) ENCRYPTED
   #
   # Mailgun API key
-  #apiKey: "1q2w3e4r"
+  #apiKey: "1q2w3e4r" 
 
+  # This is also provided directly on the server via env variable
   # (!) ENCRYPTED
   #
   # Mailgun domain (encrypted)
@@ -65,13 +67,13 @@ comments:
   # (*) REQUIRED
   #
   # Destination path (directory) for the data files. Accepts placeholders.
-  path: "_data/comments/{options.slug}"
+  path: "_data/comments/{options.slug}/{options.reply}"
 
   # Names of required fields. If any of these isn't in the request or is empty,
   # an error will be thrown.
-  requiredFields: ["name", "email", "message"]
+  requiredFields: ["name", "message", "replyto"]
 
   # List of transformations to apply to any of the fields supplied. Keys are
   # the name of the field and values are possible transformation types.
   transforms:
-    email: md5
+    email: md5 # This should probably be something stronger than md5

@@ -1,11 +1,6 @@
-function init() {
-  var $comments = $(".js-comments");
-
-  console.log($comments);
-
+function initCommentSubmitActions() {
   $(".js-form").submit(function(e) {
     e.preventDefault();
-    console.log("STUFF");
     var form = this;
 
     $(form).addClass("form--loading");
@@ -21,7 +16,8 @@ function init() {
           "Thanks for your comment! It will show on the site once it has been approved."
         );
         $(form).removeClass("form--loading");
-        document.getElementById("new-comment").reset();
+        console.log(form);
+        form.reset();
       },
       error: function(err) {
         console.log(err);
@@ -43,6 +39,11 @@ function init() {
 
     $("body").addClass("show-modal");
   }
+}
+
+function init() {
+  //var $comments = $(".js-comments");
+  initCommentSubmitActions();
 
   // Link the title to the home page
   var titleLink = document.getElementById("project_title");
