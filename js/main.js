@@ -1,5 +1,5 @@
 function initCommentSubmitActions() {
-  $(".js-form").submit(function(e) {
+  $(".js-form").removeAttr('onsubmit').submit(function(e) {
     e.preventDefault();
     var form = this;
 
@@ -44,6 +44,9 @@ function initCommentSubmitActions() {
 function init() {
   //var $comments = $(".js-comments");
   initCommentSubmitActions();
+
+  // Background
+  particlesJS.load('particles-js', '/json/particles.json', function() {});
 
   // Link the title to the home page
   var titleLink = document.getElementById("project_title");

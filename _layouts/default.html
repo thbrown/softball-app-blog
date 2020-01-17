@@ -6,9 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
     <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="/js/main.js"></script>
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-pink.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
@@ -21,10 +21,6 @@
   <body onload="init()">
     <!-- BACKGROUND -->
     <div id="particles-js"></div>
-    <script>
-      particlesJS.load('particles-js', '/json/particles.json', function() {
-    });
-    </script>
 
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
@@ -53,26 +49,34 @@
 
         <div class="js-comments constrain">   
           {% if page.slug %}
-          {% assign comments = site.data.comments[page.slug] | sort %}
+            {% assign comments = site.data.comments[page.slug] | sort %}
           {% else %}
-          {% assign comments = site.data.comments.index | sort %}
+            {% assign comments = site.data.comments.index | sort %}
           {% endif %}
 
-          {% for comment in comments reversed %}
-            {% assign commentData = comment[1] %}
-        
-            <article class="comment mdl-card mdl-shadow--2dp">
+          <!-- Convert the map of comments into an array -->
+          {% assign commentArray = "" | split: "," %}
+          {% for comment in comments %}
+            {% assign commentArray = commentArray | push: comment[1]  %}
+          {% endfor %}
+          {% assign commentArray = commentArray | sort: "replychain"  %}
+
+
+          {% for comment in commentArray reversed %}
+            {% assign indentCount = comment.replychain | split: "," | size | times: 5 %}
+            {% assign width = 100 | minus: indentCount %}
+            <article class="comment mdl-card mdl-shadow--2dp" style="margin-left:{{ indentCount }}%; width:{{ width }}%">
               <div class="mdl-card__title comment-header">
-                <h2 class="mdl-card__title-text">{{ commentData.name | strip_html }}</h2>
-                <span class="date">{{ commentData.date | strip_html }}</span>
+                <h2 class="mdl-card__title-text">{{ comment.name | strip_html }}</h2>
+                <span class="date">{{ comment.date | strip_html }}</span>
                 <!-- To parse date in ruby:| date: "%b %d, %y, %I:%M %P %Z"-->
               </div>
               <div class="comment-supporting-text-override mdl-card__supporting-text">
                 <div class="comment__description">
-                  {{ commentData.message | strip_html | markdownify | replace: '<a href="http', '<a rel="nofollow" target="_blank" href="http'}}
+                  {{ comment.message | strip_html | markdownify | replace: '<a href="http', '<a rel="nofollow" target="_blank" href="http'}}
                 </div>
               </div>
-              <button class="mdc-button comment-reply-button" id={{ commentData._id }} onclick="showReply('{{ commentData._id }}', '{{ commentData.name }}')">  <span class="mdc-button__ripple"></span>REPLY</button>
+              <button class="mdc-button comment-reply-button" id={{ comment._id }} onclick="showReply('{{ comment._id | strip_html }}', '{{ comment.name | strip_html }}', '{{ comment.replychain | strip_html }}')">  <span class="mdc-button__ripple"></span>REPLY</button>
             </article>
           {% endfor %}
         </div>
@@ -80,14 +84,15 @@
     </div>
 
     <script>
-      function showReply(id, name) {
-        // Adds an element to the document e.getAttribute('id')
-        var replyButton = document.getElementById(id);
+      // This script tage is required because we need liquid to populate the comment.html (it won't do that in the javascript file)
+      function showReply(parentId, name, parentReplyChain) {
+        // Add the new comment element to the document
+        var replyButton = document.getElementById(parentId);
         replyButton.classList.add("hidden");
         var commentDiv = document.createElement('div');
         commentDiv.setAttribute('class', "comment-reply-wrapper");
         commentDiv.innerHTML = `{% include comment.html %}`;
-        commentDiv.querySelector('input[name="replyto"]').value = id;
+        commentDiv.querySelector('input[name="fields[replychain]"]').value = parentReplyChain + "," + parentId;
         commentDiv.innerHTML = '<hr>' + "<div>Replying to " + name + '</div>' + commentDiv.outerHTML;
         replyButton.parentNode.appendChild(commentDiv);
 
