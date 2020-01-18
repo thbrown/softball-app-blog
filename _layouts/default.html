@@ -99,7 +99,11 @@
         var commentDiv = document.createElement('div');
         commentDiv.setAttribute('class', "comment-reply-wrapper");
         commentDiv.innerHTML = `{% include comment.html %}`;
-        commentDiv.querySelector('input[name="fields[replychain]"]').value = parentReplyChain + "," + parentDate + "|" + parentId;
+        if(parentReplyChain) {
+          commentDiv.querySelector('input[name="fields[replychain]"]').value = parentReplyChain + "," + parentDate + "|" + parentId;
+        } else {
+          commentDiv.querySelector('input[name="fields[replychain]"]').value = parentDate + "|" + parentId;
+        }
         commentDiv.innerHTML = '<hr>' + "<div>Replying to " + name + '</div>' + commentDiv.outerHTML;
         replyButton.parentNode.appendChild(commentDiv);
 
