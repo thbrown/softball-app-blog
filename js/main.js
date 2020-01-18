@@ -71,7 +71,7 @@ function init() {
   ];
   let dates = document.getElementsByClassName("date");
   for (let i = 0; i < dates.length; i++) {
-    var jsDate = new Date(parseInt(dates[i].innerHTML) * 1000);
+    var jsDate = new Date(parseInt(dates[i].innerHTML));
     var ampm = jsDate.getHours() >= 12 ? "pm" : "am";
     dates[i].innerHTML =
       monthNames[jsDate.getMonth()] +

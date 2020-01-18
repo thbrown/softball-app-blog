@@ -54,15 +54,22 @@
             {% assign comments = site.data.comments.index | sort %}
           {% endif %}
 
-          <!-- Convert the map of comments into an array -->
-          {% assign commentArray = "" | split: "," %}
+          <!-- Build an array of times and comment ids, sorting this list gives us the correct comment order (including nested replys) -->
+          {% assign sortList = "" | split: "," %}
           {% for comment in comments %}
-            {% assign commentArray = commentArray | push: comment[1]  %}
+            {% if comment[1].replychain %}
+              {% assign sortValue = comment[1].replychain | append: "," | append: comment[1].date | append: "|" | append: comment[1]._id | append: "*" | append: forloop.index0 %}
+            {% else %}
+              {% assign sortValue = comment[1].replychain | append: comment[1].date | append: "|" | append: comment[1]._id | append: "*" | append: forloop.index0 %}
+            {% endif %}
+            {% assign sortList = sortList | push: sortValue %}
           {% endfor %}
-          {% assign commentArray = commentArray | sort: "replychain"  %}
+          {% assign sortList = sortList | sort  %}
 
-
-          {% for comment in commentArray reversed %}
+          {% for sortValue in sortList %}
+            {% assign commentIndexString = sortValue | split: "*" | last %}
+            {% assign commentIndexInt = commentIndexString | plus:0 %}
+            {% assign comment = comments[commentIndexInt][1] %}
             {% assign indentCount = comment.replychain | split: "," | size | times: 5 %}
             {% assign width = 100 | minus: indentCount %}
             <article class="comment mdl-card mdl-shadow--2dp" style="margin-left:{{ indentCount }}%; width:{{ width }}%">
@@ -76,7 +83,7 @@
                   {{ comment.message | strip_html | markdownify | replace: '<a href="http', '<a rel="nofollow" target="_blank" href="http'}}
                 </div>
               </div>
-              <button class="mdc-button comment-reply-button" id={{ comment._id }} onclick="showReply('{{ comment._id | strip_html }}', '{{ comment.name | strip_html }}', '{{ comment.replychain | strip_html }}')">  <span class="mdc-button__ripple"></span>REPLY</button>
+              <button class="mdc-button comment-reply-button" id={{ comment._id }} onclick="showReply('{{ comment._id | strip_html }}', '{{ comment.date | strip_html }}', '{{ comment.name | strip_html }}', '{{ comment.replychain | strip_html }}')">  <span class="mdc-button__ripple"></span>REPLY</button>
             </article>
           {% endfor %}
         </div>
@@ -85,14 +92,14 @@
 
     <script>
       // This script tage is required because we need liquid to populate the comment.html (it won't do that in the javascript file)
-      function showReply(parentId, name, parentReplyChain) {
+      function showReply(parentId, parentDate, name, parentReplyChain) {
         // Add the new comment element to the document
         var replyButton = document.getElementById(parentId);
         replyButton.classList.add("hidden");
         var commentDiv = document.createElement('div');
         commentDiv.setAttribute('class', "comment-reply-wrapper");
         commentDiv.innerHTML = `{% include comment.html %}`;
-        commentDiv.querySelector('input[name="fields[replychain]"]').value = parentReplyChain + "," + parentId;
+        commentDiv.querySelector('input[name="fields[replychain]"]').value = parentReplyChain + "," + parentDate + "|" + parentId;
         commentDiv.innerHTML = '<hr>' + "<div>Replying to " + name + '</div>' + commentDiv.outerHTML;
         replyButton.parentNode.appendChild(commentDiv);
 
