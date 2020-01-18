@@ -57,7 +57,7 @@
           <!-- Build an array of times and comment ids, sorting this list gives us the correct comment order (including nested replys) -->
           {% assign sortList = "" | split: "," %}
           {% for comment in comments %}
-            {% if comment[1].replychain %}
+            {% if comment[1].replychain == blank %}
               {% assign sortValue = comment[1].replychain | append: "," | append: comment[1].date | append: "|" | append: comment[1]._id | append: "*" | append: forloop.index0 %}
             {% else %}
               {% assign sortValue = comment[1].replychain | append: comment[1].date | append: "|" | append: comment[1]._id | append: "*" | append: forloop.index0 %}
@@ -91,7 +91,7 @@
     </div>
 
     <script>
-      // This script tage is required because we need liquid to populate the comment.html (it won't do that in the javascript file)
+      // This script tag is required because we need liquid to populate the comment.html (it won't do that in the javascript file)
       function showReply(parentId, parentDate, name, parentReplyChain) {
         // Add the new comment element to the document
         var replyButton = document.getElementById(parentId);
